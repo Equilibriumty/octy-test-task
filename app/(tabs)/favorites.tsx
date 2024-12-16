@@ -1,22 +1,30 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import { StyleSheet } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import useCurrencyStore from "@/lib/store/currencyStore";
+import { FavoriteCurrencyList } from "@/components/FavoriteCurrencyList";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemedText } from "@/components/ThemedText";
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-
-export default function TabTwoScreen() {
-
+export default function FavoritesScreen() {
+  const { favorites } = useCurrencyStore();
+  return (
+    <SafeAreaView style={styles.stepContainer}>
+      <ThemedView style={{ flex: 1 }}>
+        <ThemedText style={{ padding: 16 }} type="subtitle">
+          Favorite currencies
+        </ThemedText>
+        <FavoriteCurrencyList currencies={favorites} />
+      </ThemedView>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
+  },
+  stepContainer: {
+    flex: 1,
   },
 });

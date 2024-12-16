@@ -1,44 +1,46 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet } from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import useCurrencyStore from "@/lib/store/currencyStore";
+import { useEffect, useMemo } from "react";
+import { CurrencyList } from "@/components/CurrencyList";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
-  return (
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
+  const { rates, fetchRates } = useCurrencyStore();
 
+  useEffect(() => {
+    fetchRates();
+  }, [fetchRates]);
+
+  const currencies = useMemo(
+    () =>
+      Object.entries(rates.rates || {}).map(([code, value]) => ({
+        code,
+        value,
+      })),
+    [rates.rates],
+  );
+
+  return (
+    <SafeAreaView style={styles.stepContainer}>
+      <ThemedView style={styles.stepContainer}>
+        {rates.success && (
+          <>
+            <ThemedText style={{ padding: 16 }} type="subtitle">
+              ✅ Last updated at: {rates.date}
+            </ThemedText>
+            <CurrencyList currencies={currencies} />
+          </>
+        )}
+      </ThemedView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
   stepContainer: {
     gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+    flex: 1,
   },
 });
