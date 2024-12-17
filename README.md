@@ -1,50 +1,84 @@
-# Welcome to your Expo app 👋
+## Overview
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This application provides users with:
+- Real-time currency exchange rates from a reliable API
+- Ability to view a comprehensive list of currency rates
+- Feature to mark currencies as favorites for quick access
+- Dark/Light theme support
 
-## Get started
 
-1. Install dependencies
+## Technical Stack
 
-   ```bash
-   npm install
-   ```
+- **Framework**: React Native with Expo
+- **Language**: TypeScript
+- **State Management**: Zustand
+- **Navigation**: Expo Router (file-based routing)
+- **UI Components**: Custom themed components
+- **API Integration**: Fetch API with type-safe responses
 
-2. Start the app
+## Architecture & Design
 
-   ```bash
-    npx expo start
-   ```
+### App Structure
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/
+├── (tabs)/
+│   ├── index.tsx       # Home screen with all rates
+│   ├── favorites.tsx   # Favorites screen
+│   └── _layout.tsx     # Tab navigation layout
+├── components/
+│   ├── CurrencyList.tsx
+│   ├── FavoriteCurrencyList.tsx
+│   ├── ThemedText.tsx
+│   └── ThemedView.tsx
+└── lib/
+    └── store/
+        └── currencyStore.ts  # Zustand store for state management
+        api/
+        ├── index.ts    # Fetch utility functions
+        └── currencyApi.ts    # Fetch API for currency rates
+        types/
+        └── currency.ts    # Type definitions for currency rates
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Key Components
 
-## Learn more
+- **HomeScreen**: Displays all available currency rates with real-time updates
+- **FavoritesScreen**: Shows user-selected favorite currencies
+- **CurrencyList**: Reusable component for displaying currency rates
 
-To learn more about developing your project with Expo, look at the following resources:
+### State Management
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+The app uses Zustand for state management, offering:
+- Centralized store for currency rates and favorites
+- Persistent storage for favorite currencies
+- Type-safe state updates
+- Efficient re-rendering with minimal boilerplate
 
-## Join the community
+### API Integration
 
-Join our community of developers creating universal apps.
+Currency rates are fetched from an external API with:
+- Type-safe responses
+- Error handling
+- Rate limiting consideration
+- Last update timestamp tracking
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Implementation Details
+
+### Offline Support
+
+The app implements basic offline support through:
+- Caching of last fetched rates
+- Persistent storage of favorite currencies
+- Graceful degradation when offline
+
+### Performance Optimizations
+
+- Memoized currency calculations
+- Efficient list rendering with FlatList
+- Minimal re-renders through proper state management
+
+### Additional Features
+
+- Pull-to-refresh functionality
+- Error states and loading indicators
