@@ -23,13 +23,15 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.stepContainer}>
-      <ThemedView style={styles.stepContainer}>
+    <SafeAreaView style={styles.container}>
+      <ThemedView style={styles.ratesListContainer}>
         {rates.success && (
           <>
-            <ThemedText style={{ padding: 16 }} type="subtitle">
-              ✅ Last updated at: {rates.date}
-            </ThemedText>
+            <ThemedView style={{ padding: 16 }}>
+              <ThemedText type="subtitle">
+                ✅ Last updated at: {rates.date}
+              </ThemedText>
+            </ThemedView>
             <CurrencyList currencies={currencies} />
           </>
         )}
@@ -39,8 +41,11 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  stepContainer: {
+  ratesListContainer: {
     gap: 8,
+    flex: 1,
+  },
+  container: {
     flex: 1,
   },
 });

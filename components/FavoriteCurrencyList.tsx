@@ -2,6 +2,7 @@ import { FlatList, StyleSheet } from "react-native";
 import { CurrencyItem } from "./CurrencyItem";
 import type { Currency } from "@/lib/types/currency";
 import { ThemedText } from "./ThemedText";
+import { ThemedView } from "./ThemedView";
 
 export const FavoriteCurrencyList = ({
   currencies,
@@ -17,12 +18,16 @@ export const FavoriteCurrencyList = ({
           keyExtractor={(item) => item.code}
         />
       ) : (
-        <ThemedText style={{ padding: 16 }} type="subtitle">
-          No favorites yet
-        </ThemedText>
+        <ThemedView style={styles.container}>
+          <ThemedText type="subtitle">No favorites yet</ThemedText>
+        </ThemedView>
       )}
     </>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+});
